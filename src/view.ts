@@ -1,8 +1,8 @@
+import Config from './models.js'
+
 interface ScreenProps {
     canvas: HTMLCanvasElement
     context: CanvasRenderingContext2D
-    cellWidth: number
-    cellColor: string
 }
 
 export default class Screen {
@@ -12,20 +12,29 @@ export default class Screen {
         this.props = {
             canvas: canvas,
             context: context,
-            cellWidth: 16, // 39x39
-            cellColor: 'yellow'
         }
     }
 
-    public drawnAt(x: number, y: number) {
-        x = this.props.cellWidth * x
-        y = this.props.cellWidth * y
+    public render(grid: Array<Array<boolean>>, rows: number, cols: number) {
+        console.log(grid)
+        console.log(cols)
 
-        this.props.context.fillStyle = this.props.cellColor
-        this.props.context.fillRect(x, y, 16, 16)
+        for (let row = 0; row < rows; row++)
+            for (let col = 0; col < cols; col++)
+                if (grid[row][col])
+                    this.drawnAt(row, col)
+    }
+
+    public drawnAt(x: number, y: number) {
+        x = Config.cellSize * x
+        y = Config.cellSize * y
+
+        this.props.context.fillStyle = Config.cellColor
+        this.props.context.fillRect(x, y, Config.cellSize, Config.cellSize)
     }
 
     public clear() {
-        this.props.context.clearRect(0, 0, this.props.canvas.width, this.props.canvas.height)
+        this.props.context.clearRect(0, 0, this.props.canvas.width,
+            this.props.canvas.height)
     }
 }
