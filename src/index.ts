@@ -6,15 +6,21 @@ const canvas: HTMLCanvasElement = document.querySelector('canvas#gameCanvas')!
 const context: CanvasRenderingContext2D = canvas.getContext('2d')!
 
 const screen = new Screen(canvas, context)
+const game = new Game()
 
 if (Config.initGeneration === null)
-    Config.initGeneration = Game.randomLayout(40, 40)
+    Config.initGeneration = Game.randomLayout(Config.grid.rows,
+        Config.grid.cols)
 
-async function loop() {
+function loop() {
     screen.clear();
-    screen.render(Config.initGeneration!, Config.grid.rows, Config.grid.cols)
+    screen.render(game.getGrid(), Config.grid.rows, Config.grid.cols)
 
-    setTimeout(() => requestAnimationFrame(loop), Config.delay)
+    setTimeout(() => {
+        game.nextGen()
+        requestAnimationFrame(loop)
+    }, Config.delay)
 }
 
-requestAnimationFrame(loop)
+game.setGrid(Config.initGeneration!)
+loop()

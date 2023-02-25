@@ -16,9 +16,6 @@ export default class Screen {
     }
 
     public render(grid: Array<Array<boolean>>, rows: number, cols: number) {
-        console.log(grid)
-        console.log(cols)
-
         for (let row = 0; row < rows; row++)
             for (let col = 0; col < cols; col++)
                 if (grid[row][col])
