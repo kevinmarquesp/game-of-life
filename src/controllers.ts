@@ -28,26 +28,17 @@ export default class Game {
             for (let col = 0; col < Config.grid.cols; col++) {
                 const neighbours: number = this.countNeighbours(row, col)
 
-                if (this.props.grid[row][col]) {
-                    if (neighbours < 2)
-                        this.props.grid[row][col] = false
+                if (this.props.grid[row][col] && neighbours < 2 || neighbours > 3)
+                    this.props.grid[row][col] = false
 
-                    else if (neighbours === 2 || neighbours === 3)
-                        continue
-
-                    else
-                        this.props.grid[row][col] = false
-
-                } else {
-                    if (neighbours === 3)
-                        this.props.grid[row][col] = true
-                }
+                else if (!this.props.grid[row][col] && neighbours === 3)
+                    this.props.grid[row][col] = true
             }
         }
     }
 
     private countNeighbours(row: number, col: number): number {
-        const grid = this.props.grid
+        const grid: Array<Array<boolean>> = this.props.grid
         const lastRow: number = Config.grid.rows - 1;
         const lastCol: number = Config.grid.cols - 1;
 
@@ -73,7 +64,7 @@ export default class Game {
             grid[row] = new Array()
 
             for (let col = 0; col < cols; col++)
-                grid[row].push(Math.random() < .5 ? true : false)
+                grid[row].push(Math.random() < .09 ? true : false)
         }
 
         return grid
