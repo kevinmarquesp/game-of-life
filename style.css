@@ -21,4 +21,5 @@ body {
 #gameCanvas {
   border: 5px solid var(--clr-canvas);
   box-shadow: 20px 20px 0 var(--clr-canvas);
+  image-rendering: pixelated;
 }

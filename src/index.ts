@@ -1,8 +1,8 @@
-import Game from './game.js'
+import Screen from './view.js'
 
-const game = new Game()
-game.start()
+const canvas: HTMLCanvasElement = document.querySelector('canvas#gameCanvas')!
+const context: CanvasRenderingContext2D = canvas.getContext('2d')!
 
-setTimeout(() => {
-  game.stop()
-}, 2000)
+const screen = new Screen(canvas, context)
+
+screen.drawnAt(0, 0)
