@@ -6,5 +6,11 @@ bs.init({
   server: true
 })
 
-bs.watch([ 'index.html', 'dist/**/*.js' ])
+bs.watch('index.html')
+  .on('change', bs.reload)
+
+bs.watch('style.css')
+  .on('change', bs.reload)
+
+bs.watch('dist/**/*.js')
   .on('change', bs.reload)
