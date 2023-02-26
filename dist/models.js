@@ -1,7 +1,7 @@
 export const Config = {
     delay: 50,
-    cellColor: 'yellow',
-    cellSize: 16,
+    cellColor: 'white',
+    cellSize: 4,
     initGeneration: null,
     grid: {
         rows: 160,
