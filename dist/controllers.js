@@ -14,10 +14,9 @@ export default class Game {
     }
     nextGen() {
         const nextGrid = this.props.grid.map(row => row.slice());
-        for (let row = 0; row < Config.grid.rows; row++) {
-            for (let col = 0; col < Config.grid.cols; col++) {
+        this.props.grid.forEach((cols, row) => {
+            cols.forEach((isAlive, col) => {
                 const neighbours = this.countNeighbours(row, col);
-                const isAlive = this.props.grid[row][col];
                 if (isAlive && (neighbours === 2 || neighbours === 3))
                     nextGrid[row][col] = true;
                 else if (isAlive && neighbours > 3)
@@ -26,8 +25,8 @@ export default class Game {
                     nextGrid[row][col] = false;
                 else if (!isAlive && neighbours === 3)
                     nextGrid[row][col] = true;
-            }
-        }
+            });
+        });
         this.props.grid = nextGrid;
     }
     countNeighbours(row, col) {
@@ -45,11 +44,11 @@ export default class Game {
         ];
         return neighboursArr.reduce((acc, value) => value ? acc + 1 : acc, 0);
     }
-    static randomLayout(rows, cols) {
+    static randomLayout() {
         const grid = new Array();
-        for (let row = 0; row < rows; row++) {
+        for (let row = 0; row < Config.grid.rows; row++) {
             grid[row] = new Array();
-            for (let col = 0; col < cols; col++)
+            for (let col = 0; col < Config.grid.cols; col++)
                 grid[row].push(Math.random() < .5 ? true : false);
         }
         return grid;

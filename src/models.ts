@@ -17,8 +17,8 @@ const Config: ConfigInterface = {
     initGeneration: null,
 
     grid: {
-        rows: 40,
-        cols: 40
+        rows: 160,
+        cols: 160
     }
 }
 

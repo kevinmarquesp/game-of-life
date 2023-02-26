@@ -15,11 +15,13 @@ export default class Screen {
         }
     }
 
-    public render(grid: Array<Array<boolean>>, rows: number, cols: number) {
-        for (let row = 0; row < rows; row++)
-            for (let col = 0; col < cols; col++)
-                if (grid[row][col])
-                    this.drawnAt(row, col)
+    public render(grid: Array<Array<boolean>>) {
+        grid.forEach((cols: Array<boolean>, row: number) => {
+            cols.forEach((isAlive: boolean, col: number) => {
+                if (isAlive)
+                    this.drawnAt(col, row)
+            })
+        })
     }
 
     public drawnAt(x: number, y: number) {

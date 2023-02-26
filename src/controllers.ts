@@ -27,10 +27,9 @@ export default class Game {
         const nextGrid: Array<Array<boolean>> = this.props.grid.map(row =>
             row.slice())
 
-        for (let row = 0; row < Config.grid.rows; row++) {
-            for (let col = 0; col < Config.grid.cols; col++) {
+        this.props.grid.forEach((cols: Array<boolean>, row: number) => {
+            cols.forEach((isAlive: boolean, col: number) => {
                 const neighbours: number = this.countNeighbours(row, col)
-                const isAlive: boolean = this.props.grid[row][col]
 
                 // rule 1: any alive cell touching two or three alive neighbours survive
                 if (isAlive && (neighbours === 2 || neighbours === 3))
@@ -47,8 +46,8 @@ export default class Game {
                 // rule 4: any dead cell touching exactly three alive neighbours becomes alive
                 else if (!isAlive && neighbours === 3)
                     nextGrid[row][col] = true
-            }
-        }
+            })
+        })
 
         this.props.grid = nextGrid
     }
@@ -73,13 +72,13 @@ export default class Game {
             value ? acc + 1 : acc, 0)
     }
 
-    static randomLayout(rows: number, cols: number): Array<Array<boolean>> {
+    static randomLayout(): Array<Array<boolean>> {
         const grid: Array<Array<boolean>> = new Array()
 
-        for (let row = 0; row < rows; row++) {
+        for (let row = 0; row < Config.grid.rows; row++) {
             grid[row] = new Array()
 
-            for (let col = 0; col < cols; col++)
+            for (let col = 0; col < Config.grid.cols; col++)
                 grid[row].push(Math.random() < .5 ? true : false)
         }
 

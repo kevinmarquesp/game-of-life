@@ -4,8 +4,8 @@ const Config = {
     cellSize: 16,
     initGeneration: null,
     grid: {
-        rows: 40,
-        cols: 40
+        rows: 160,
+        cols: 160
     }
 };
 export default Config;

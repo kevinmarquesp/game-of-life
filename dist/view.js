@@ -6,11 +6,13 @@ export default class Screen {
             context: context,
         };
     }
-    render(grid, rows, cols) {
-        for (let row = 0; row < rows; row++)
-            for (let col = 0; col < cols; col++)
-                if (grid[row][col])
-                    this.drawnAt(row, col);
+    render(grid) {
+        grid.forEach((cols, row) => {
+            cols.forEach((isAlive, col) => {
+                if (isAlive)
+                    this.drawnAt(col, row);
+            });
+        });
     }
     drawnAt(x, y) {
         x = Config.cellSize * x;

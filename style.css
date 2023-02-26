@@ -3,23 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-:root {
-  --clr-canvas: white;
-  --clr-bg: black;
-}
-
 body {
-  background-color: var(--clr-bg);
+  background-color: black;
   width: 100vw;
   height: 100vh;
 
   display: grid;
   place-items: center;
-}
-
-#gameCanvas {
-  border: 5px solid var(--clr-canvas);
-  box-shadow: 20px 20px 0 var(--clr-canvas);
-  image-rendering: pixelated;
 }
