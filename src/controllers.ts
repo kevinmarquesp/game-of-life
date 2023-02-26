@@ -24,17 +24,33 @@ export default class Game {
     }
 
     public nextGen() {
+        const nextGrid: Array<Array<boolean>> = this.props.grid.map(row =>
+            row.slice())
+
         for (let row = 0; row < Config.grid.rows; row++) {
             for (let col = 0; col < Config.grid.cols; col++) {
                 const neighbours: number = this.countNeighbours(row, col)
+                const isAlive: boolean = this.props.grid[row][col]
 
-                if (this.props.grid[row][col] && neighbours < 2 || neighbours > 3)
-                    this.props.grid[row][col] = false
+                // rule 1: any alive cell touching two or three alive neighbours survive
+                if (isAlive && (neighbours === 2 || neighbours === 3))
+                    nextGrid[row][col] = true
 
-                else if (!this.props.grid[row][col] && neighbours === 3)
-                    this.props.grid[row][col] = true
+                // rule 2: any alive cell touching four or more alive neighbours dies
+                else if (isAlive && neighbours > 3)
+                    nextGrid[row][col] = false
+
+                // rule 3: any alive cell that is touching less than two alive neighbours dies
+                else if (isAlive && neighbours < 2)
+                    nextGrid[row][col] = false
+
+                // rule 4: any dead cell touching exactly three alive neighbours becomes alive
+                else if (!isAlive && neighbours === 3)
+                    nextGrid[row][col] = true
             }
         }
+
+        this.props.grid = nextGrid
     }
 
     private countNeighbours(row: number, col: number): number {
@@ -64,7 +80,7 @@ export default class Game {
             grid[row] = new Array()
 
             for (let col = 0; col < cols; col++)
-                grid[row].push(Math.random() < .09 ? true : false)
+                grid[row].push(Math.random() < .5 ? true : false)
         }
 
         return grid

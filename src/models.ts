@@ -11,7 +11,7 @@ interface ConfigInterface {
 }
 
 const Config: ConfigInterface = {
-    delay: 200,
+    delay: 50,
     cellColor: 'yellow',
     cellSize: 16,
     initGeneration: null,

@@ -13,15 +13,22 @@ export default class Game {
         this.props.grid = grid;
     }
     nextGen() {
+        const nextGrid = this.props.grid.map(row => row.slice());
         for (let row = 0; row < Config.grid.rows; row++) {
             for (let col = 0; col < Config.grid.cols; col++) {
                 const neighbours = this.countNeighbours(row, col);
-                if (this.props.grid[row][col] && neighbours < 2 || neighbours > 3)
-                    this.props.grid[row][col] = false;
-                else if (!this.props.grid[row][col] && neighbours === 3)
-                    this.props.grid[row][col] = true;
+                const isAlive = this.props.grid[row][col];
+                if (isAlive && (neighbours === 2 || neighbours === 3))
+                    nextGrid[row][col] = true;
+                else if (isAlive && neighbours > 3)
+                    nextGrid[row][col] = false;
+                else if (isAlive && neighbours < 2)
+                    nextGrid[row][col] = false;
+                else if (!isAlive && neighbours === 3)
+                    nextGrid[row][col] = true;
             }
         }
+        this.props.grid = nextGrid;
     }
     countNeighbours(row, col) {
         const grid = this.props.grid;
@@ -43,7 +50,7 @@ export default class Game {
         for (let row = 0; row < rows; row++) {
             grid[row] = new Array();
             for (let col = 0; col < cols; col++)
-                grid[row].push(Math.random() < .09 ? true : false);
+                grid[row].push(Math.random() < .5 ? true : false);
         }
         return grid;
     }
