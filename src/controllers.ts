@@ -27,8 +27,8 @@ export default class Game {
         const nextGrid: Array<Array<boolean>> = this.props.grid.map(row =>
             row.slice())
 
-        this.props.grid.forEach((cols: Array<boolean>, row: number) => {
-            cols.forEach((isAlive: boolean, col: number) => {
+        this.props.grid.forEach((currRow: Array<boolean>, row: number) => {
+            currRow.forEach((isAlive: boolean, col: number) => {
                 const neighbours: number = this.countNeighbours(row, col)
 
                 // rule 1: any alive cell touching two or three alive neighbours survive
@@ -50,6 +50,21 @@ export default class Game {
         })
 
         this.props.grid = nextGrid
+        this.props.generation++
+    }
+
+    public resize(newRows: number, newCols: number) {
+        const newGrid: Array<Array<boolean>> = new Array(newRows)
+            .fill(false).map(() => new Array(newCols).fill(false))
+
+        this.props.grid.forEach((currRow: Array<boolean>, row: number) => {
+            currRow.forEach((isAlive: boolean, col: number) => {
+                if (row < newRows && col < newCols)
+                    newGrid[row][col] = isAlive
+            })
+        })
+
+        this.props.grid = newGrid
     }
 
     private countNeighbours(row: number, col: number): number {
@@ -76,7 +91,7 @@ export default class Game {
         const grid: Array<Array<boolean>> = new Array()
 
         for (let row = 0; row < Config.grid.rows; row++) {
-            grid[row] = new Array()
+            grid.push(new Array())
 
             for (let col = 0; col < Config.grid.cols; col++)
                 grid[row].push(Math.random() < .5 ? true : false)

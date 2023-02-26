@@ -14,8 +14,8 @@ export default class Game {
     }
     nextGen() {
         const nextGrid = this.props.grid.map(row => row.slice());
-        this.props.grid.forEach((cols, row) => {
-            cols.forEach((isAlive, col) => {
+        this.props.grid.forEach((currRow, row) => {
+            currRow.forEach((isAlive, col) => {
                 const neighbours = this.countNeighbours(row, col);
                 if (isAlive && (neighbours === 2 || neighbours === 3))
                     nextGrid[row][col] = true;
@@ -28,6 +28,18 @@ export default class Game {
             });
         });
         this.props.grid = nextGrid;
+        this.props.generation++;
+    }
+    resize(newRows, newCols) {
+        const newGrid = new Array(newRows)
+            .fill(false).map(() => new Array(newCols).fill(false));
+        this.props.grid.forEach((currRow, row) => {
+            currRow.forEach((isAlive, col) => {
+                if (row < newRows && col < newCols)
+                    newGrid[row][col] = isAlive;
+            });
+        });
+        this.props.grid = newGrid;
     }
     countNeighbours(row, col) {
         const grid = this.props.grid;
@@ -47,7 +59,7 @@ export default class Game {
     static randomLayout() {
         const grid = new Array();
         for (let row = 0; row < Config.grid.rows; row++) {
-            grid[row] = new Array();
+            grid.push(new Array());
             for (let col = 0; col < Config.grid.cols; col++)
                 grid[row].push(Math.random() < .5 ? true : false);
         }
