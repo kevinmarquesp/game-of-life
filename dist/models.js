@@ -1,4 +1,4 @@
-const Config = {
+export const Config = {
     delay: 50,
     cellColor: 'yellow',
     cellSize: 16,
@@ -8,4 +8,3 @@ const Config = {
         cols: 160
     }
 };
-export default Config;

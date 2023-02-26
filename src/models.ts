@@ -1,8 +1,11 @@
+export type TypeGrid = Array<Array<boolean>>
+export type TypeRow = Array<boolean>
+
 interface ConfigInterface {
     delay: number,
     cellColor: string
     cellSize: number
-    initGeneration: Array<Array<boolean>> | null
+    initGeneration: TypeGrid | null
 
     grid: {
         rows: number
@@ -10,7 +13,7 @@ interface ConfigInterface {
     }
 }
 
-const Config: ConfigInterface = {
+export const Config: ConfigInterface = {
     delay: 50,
     cellColor: 'yellow',
     cellSize: 16,
@@ -21,5 +24,3 @@ const Config: ConfigInterface = {
         cols: 160
     }
 }
-
-export default Config

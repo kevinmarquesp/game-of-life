@@ -1,4 +1,4 @@
-import Config from './models.js';
+import { Config } from './models.js';
 import Screen from './view.js';
 import Game from './controllers.js';
 const canvas = document.querySelector('canvas#gameCanvas');
@@ -24,7 +24,7 @@ function updateCanvasSize() {
 }
 updateCanvasSize();
 if (Config.initGeneration === null)
-    Config.initGeneration = Game.randomLayout();
+    Config.initGeneration = Game.randomLayout(Config.grid.rows, Config.grid.cols);
 game.setGrid(Config.initGeneration);
 window.addEventListener('resize', updateCanvasSize);
 loop();

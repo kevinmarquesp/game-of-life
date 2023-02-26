@@ -1,4 +1,3 @@
-import Config from './models.js';
 export default class Game {
     constructor() {
         this.props = {
@@ -43,8 +42,8 @@ export default class Game {
     }
     countNeighbours(row, col) {
         const grid = this.props.grid;
-        const lastRow = Config.grid.rows - 1;
-        const lastCol = Config.grid.cols - 1;
+        const lastRow = grid.length - 1;
+        const lastCol = grid[0].length - 1;
         const rowAbove = row - 1 < 0 ? lastRow : row - 1;
         const rowBelow = row + 1 > lastRow ? 0 : row + 1;
         const colBack = col - 1 < 0 ? lastCol : col - 1;
@@ -56,13 +55,10 @@ export default class Game {
         ];
         return neighboursArr.reduce((acc, value) => value ? acc + 1 : acc, 0);
     }
-    static randomLayout() {
-        const grid = new Array();
-        for (let row = 0; row < Config.grid.rows; row++) {
-            grid.push(new Array());
-            for (let col = 0; col < Config.grid.cols; col++)
-                grid[row].push(Math.random() < .5 ? true : false);
-        }
-        return grid;
+    static randomLayout(rows, cols) {
+        const newGrid = new Array(rows)
+            .fill(null).map(() => new Array(cols).fill(null));
+        newGrid.forEach((currRow, row) => currRow.map((_, col) => newGrid[row][col] = Math.random() < .5 ? true : false));
+        return newGrid;
     }
 }

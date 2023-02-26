@@ -1,4 +1,4 @@
-import Config from './models.js'
+import { Config, TypeGrid, TypeRow } from './models.js'
 
 interface ScreenProps {
     canvas: HTMLCanvasElement
@@ -15,8 +15,8 @@ export default class Screen {
         }
     }
 
-    public render(grid: Array<Array<boolean>>) {
-        grid.forEach((cols: Array<boolean>, row: number) => {
+    public render(grid: TypeGrid) {
+        grid.forEach((cols: TypeRow, row: number) => {
             cols.forEach((isAlive: boolean, col: number) => {
                 if (isAlive)
                     this.drawnAt(col, row)

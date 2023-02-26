@@ -1,7 +1,7 @@
-import Config from './models.js'
+import { TypeGrid, TypeRow } from './models.js'
 
 interface GameProps {
-    grid: Array<Array<boolean>>
+    grid: TypeGrid
     generation: number
 }
 
@@ -15,19 +15,19 @@ export default class Game {
         }
     }
 
-    public getGrid(): Array<Array<boolean>> {
+    public getGrid(): TypeGrid {
         return this.props.grid
     }
 
-    public setGrid(grid: Array<Array<boolean>>) {
+    public setGrid(grid: TypeGrid) {
         this.props.grid = grid;
     }
 
     public nextGen() {
-        const nextGrid: Array<Array<boolean>> = this.props.grid.map(row =>
+        const nextGrid: TypeGrid = this.props.grid.map(row =>
             row.slice())
 
-        this.props.grid.forEach((currRow: Array<boolean>, row: number) => {
+        this.props.grid.forEach((currRow: TypeRow, row: number) => {
             currRow.forEach((isAlive: boolean, col: number) => {
                 const neighbours: number = this.countNeighbours(row, col)
 
@@ -54,10 +54,10 @@ export default class Game {
     }
 
     public resize(newRows: number, newCols: number) {
-        const newGrid: Array<Array<boolean>> = new Array(newRows)
+        const newGrid: TypeGrid = new Array(newRows)
             .fill(false).map(() => new Array(newCols).fill(false))
 
-        this.props.grid.forEach((currRow: Array<boolean>, row: number) => {
+        this.props.grid.forEach((currRow: TypeRow, row: number) => {
             currRow.forEach((isAlive: boolean, col: number) => {
                 if (row < newRows && col < newCols)
                     newGrid[row][col] = isAlive
@@ -68,35 +68,33 @@ export default class Game {
     }
 
     private countNeighbours(row: number, col: number): number {
-        const grid: Array<Array<boolean>> = this.props.grid
-        const lastRow: number = Config.grid.rows - 1;
-        const lastCol: number = Config.grid.cols - 1;
+        const grid: TypeGrid = this.props.grid
+        const lastRow: number = grid.length - 1
+        const lastCol: number = grid[0].length - 1
 
         const rowAbove: number = row - 1 < 0       ? lastRow : row - 1
         const rowBelow: number = row + 1 > lastRow ? 0       : row + 1
         const colBack: number  = col - 1 < 0       ? lastCol : col - 1
         const colNext: number  = col - 1 > lastCol ? 0       : col + 1
 
-        const neighboursArr: Array<boolean> = [
+        const neighboursArr: TypeRow = [
             grid[rowAbove][colBack], grid[rowAbove][col], grid[rowAbove][colNext],
             grid[row][colBack],                           grid[row][colNext],
             grid[rowBelow][colBack], grid[rowBelow][col], grid[rowBelow][colNext]
         ]
 
-        return neighboursArr.reduce((acc, value) =>
+        return neighboursArr.reduce((acc: number, value: boolean) =>
             value ? acc + 1 : acc, 0)
     }
 
-    static randomLayout(): Array<Array<boolean>> {
-        const grid: Array<Array<boolean>> = new Array()
+    static randomLayout(rows: number, cols: number): TypeGrid {
+        const newGrid: TypeGrid = new Array(rows)
+            .fill(null).map(() => new Array(cols).fill(null))
 
-        for (let row = 0; row < Config.grid.rows; row++) {
-            grid.push(new Array())
+        newGrid.forEach((currRow: TypeRow, row: number) =>
+            currRow.map((_, col: number) =>
+                newGrid[row][col] = Math.random() < .5 ? true : false))
 
-            for (let col = 0; col < Config.grid.cols; col++)
-                grid[row].push(Math.random() < .5 ? true : false)
-        }
-
-        return grid
+        return newGrid
     }
 }

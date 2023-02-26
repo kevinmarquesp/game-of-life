@@ -1,4 +1,4 @@
-import Config from './models.js';
+import { Config } from './models.js';
 export default class Screen {
     constructor(canvas, context) {
         this.props = {
